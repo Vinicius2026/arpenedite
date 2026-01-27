@@ -1,9 +1,24 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+// Validação das variáveis de ambiente (apenas em runtime, não em build time)
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Validação só acontece quando o código executar (não durante o build)
+function getSupabaseClient() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    // Em desenvolvimento, mostra erro claro
+    if (process.env.NODE_ENV === 'development') {
+      console.error('❌ Variáveis de ambiente do Supabase não configuradas!')
+      console.error('Configure NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY')
+    }
+    // Retorna cliente com valores vazios (vai falhar em runtime, mas não quebra o build)
+    return createClient('', '')
+  }
+  return createClient(supabaseUrl, supabaseAnonKey)
+}
+
+export const supabase = getSupabaseClient()
 
 // Função de login (exemplo)
 export async function signIn(email: string, password: string) {
