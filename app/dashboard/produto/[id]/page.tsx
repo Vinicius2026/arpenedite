@@ -65,9 +65,13 @@ export default function ProdutoPage() {
   function nextImage() {
     if (!product?.images.length) return;
     const nextIndex = (currentImageIndex + 1) % product.images.length;
-    // Pré-marcar como loading para mostrar spinner enquanto carrega
-    if (!imageLoading[nextIndex] && !imageError[nextIndex]) {
-      setImageLoading(prev => ({ ...prev, [nextIndex]: true }));
+    // Resetar estado de erro se necessário
+    if (imageError[nextIndex]) {
+      setImageError(prev => {
+        const newState = { ...prev };
+        delete newState[nextIndex];
+        return newState;
+      });
     }
     setCurrentImageIndex(nextIndex);
   }
@@ -75,9 +79,13 @@ export default function ProdutoPage() {
   function previousImage() {
     if (!product?.images.length) return;
     const prevIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
-    // Pré-marcar como loading para mostrar spinner enquanto carrega
-    if (!imageLoading[prevIndex] && !imageError[prevIndex]) {
-      setImageLoading(prev => ({ ...prev, [prevIndex]: true }));
+    // Resetar estado de erro se necessário
+    if (imageError[prevIndex]) {
+      setImageError(prev => {
+        const newState = { ...prev };
+        delete newState[prevIndex];
+        return newState;
+      });
     }
     setCurrentImageIndex(prevIndex);
   }
@@ -142,52 +150,79 @@ export default function ProdutoPage() {
                 <div className="aspect-[16/9] bg-gradient-to-br from-neutral-800 to-neutral-900 relative overflow-hidden">
                   {product.images.length > 0 ? (
                     <>
-                      {/* Todas as imagens com transição suave */}
-                      {product.images.map((image, index) => (
-                        <div 
-                          key={index}
-                          className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
-                            index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-                          }`}
-                        >
-                          {imageLoading[index] && (
-                            <div className="absolute inset-0 flex items-center justify-center z-20 bg-neutral-900/50">
-                              <div className="w-12 h-12 border-4 border-white/20 border-t-white/60 rounded-full animate-spin" />
+                      {/* Imagem atual visível */}
+                      <div className="relative w-full h-full">
+                        {imageLoading[currentImageIndex] && (
+                          <div className="absolute inset-0 flex items-center justify-center z-20 bg-neutral-900/50">
+                            <div className="w-12 h-12 border-4 border-white/20 border-t-white/60 rounded-full animate-spin" />
+                          </div>
+                        )}
+                        {!imageError[currentImageIndex] ? (
+                          <Image
+                            key={`${product.id}-img-${currentImageIndex}`}
+                            src={product.images[currentImageIndex]}
+                            alt={`${product.name} - Imagem ${currentImageIndex + 1}`}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                            className="object-contain transition-opacity duration-300"
+                            priority={currentImageIndex === 0}
+                            loading="eager"
+                            quality={85}
+                            onLoadStart={() => {
+                              setImageLoading(prev => ({ ...prev, [currentImageIndex]: true }));
+                            }}
+                            onLoad={() => {
+                              setImageLoading(prev => ({ ...prev, [currentImageIndex]: false }));
+                            }}
+                            onError={(e) => {
+                              console.error(`Erro ao carregar imagem ${currentImageIndex}:`, product.images[currentImageIndex], e);
+                              setImageError(prev => ({ ...prev, [currentImageIndex]: true }));
+                              setImageLoading(prev => ({ ...prev, [currentImageIndex]: false }));
+                            }}
+                          />
+                        ) : (
+                          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4">
+                            <Package className="w-24 h-24 text-white/10" />
+                            <div className="text-center">
+                              <p className="text-white/30 text-sm mb-1">ERRO AO CARREGAR IMAGEM</p>
+                              <p className="text-white/20 text-xs">Imagem não disponível</p>
+                              <button
+                                onClick={() => {
+                                  setImageError(prev => {
+                                    const newState = { ...prev };
+                                    delete newState[currentImageIndex];
+                                    return newState;
+                                  });
+                                }}
+                                className="mt-2 px-4 py-2 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                              >
+                                Tentar novamente
+                              </button>
                             </div>
-                          )}
-                          {!imageError[index] ? (
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Pré-carregar imagens adjacentes */}
+                      {product.images.map((image, index) => {
+                        if (index === currentImageIndex) return null;
+                        const isNext = index === (currentImageIndex + 1) % product.images.length;
+                        const isPrev = index === (currentImageIndex - 1 + product.images.length) % product.images.length;
+                        if (!isNext && !isPrev) return null;
+                        
+                        return (
+                          <div key={`preload-${index}`} className="hidden">
                             <Image
-                              key={`${product.id}-img-${index}`}
                               src={image}
-                              alt={`${product.name} - Imagem ${index + 1}`}
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
-                              className="object-contain"
-                              priority={index === 0}
-                              loading={index === 0 ? "eager" : "lazy"}
-                              unoptimized={false}
-                              onLoadStart={() => {
-                                setImageLoading(prev => ({ ...prev, [index]: true }));
-                              }}
-                              onLoad={() => {
-                                setImageLoading(prev => ({ ...prev, [index]: false }));
-                              }}
-                              onError={() => {
-                                setImageError(prev => ({ ...prev, [index]: true }));
-                                setImageLoading(prev => ({ ...prev, [index]: false }));
-                              }}
+                              alt={`${product.name} - Pré-carregar ${index + 1}`}
+                              width={1}
+                              height={1}
+                              loading="lazy"
+                              quality={85}
                             />
-                          ) : (
-                            <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4">
-                              <Package className="w-24 h-24 text-white/10" />
-                              <div className="text-center">
-                                <p className="text-white/30 text-sm mb-1">ERRO AO CARREGAR IMAGEM</p>
-                                <p className="text-white/20 text-xs">Imagem não disponível</p>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                          </div>
+                        );
+                      })}
 
                       {/* Botões de Navegação */}
                       {product.images.length > 1 && (
@@ -214,8 +249,13 @@ export default function ProdutoPage() {
                             <button
                               key={index}
                               onClick={() => {
-                                if (!imageLoading[index] && !imageError[index]) {
-                                  setImageLoading(prev => ({ ...prev, [index]: true }));
+                                // Resetar erro se necessário
+                                if (imageError[index]) {
+                                  setImageError(prev => {
+                                    const newState = { ...prev };
+                                    delete newState[index];
+                                    return newState;
+                                  });
                                 }
                                 setCurrentImageIndex(index);
                               }}
