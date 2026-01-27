@@ -49,7 +49,7 @@ const greenCards = [
   },
 ];
 
-export default function LinkHub() {
+function LinkHub() {
   const containerVariants = {
     hidden: {},
     show: {
