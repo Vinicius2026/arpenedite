@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { Instagram, Youtube, Linkedin, Mail } from "lucide-react";
 import Image from "next/image";
@@ -36,7 +37,7 @@ const socialLinks = [
   },
 ];
 
-export default function Footer() {
+function Footer() {
   const [imageError, setImageError] = useState(false);
 
   const containerVariants = {
@@ -208,3 +209,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

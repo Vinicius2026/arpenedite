@@ -16,6 +16,8 @@ export default function ProdutoPage() {
   const [userId, setUserId] = useState<string>("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [expandedRules, setExpandedRules] = useState<number[]>([]);
+  const [imageLoading, setImageLoading] = useState<Record<number, boolean>>({});
+  const [imageError, setImageError] = useState<Record<number, boolean>>({});
 
   // Buscar dados reais do produto
   const product = getProduct(productId);
@@ -62,12 +64,22 @@ export default function ProdutoPage() {
 
   function nextImage() {
     if (!product?.images.length) return;
-    setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+    const nextIndex = (currentImageIndex + 1) % product.images.length;
+    // Pré-marcar como loading para mostrar spinner enquanto carrega
+    if (!imageLoading[nextIndex] && !imageError[nextIndex]) {
+      setImageLoading(prev => ({ ...prev, [nextIndex]: true }));
+    }
+    setCurrentImageIndex(nextIndex);
   }
 
   function previousImage() {
     if (!product?.images.length) return;
-    setCurrentImageIndex((prev) => (prev - 1 + product.images.length) % product.images.length);
+    const prevIndex = (currentImageIndex - 1 + product.images.length) % product.images.length;
+    // Pré-marcar como loading para mostrar spinner enquanto carrega
+    if (!imageLoading[prevIndex] && !imageError[prevIndex]) {
+      setImageLoading(prev => ({ ...prev, [prevIndex]: true }));
+    }
+    setCurrentImageIndex(prevIndex);
   }
 
   function toggleRule(index: number) {
@@ -130,22 +142,50 @@ export default function ProdutoPage() {
                 <div className="aspect-[16/9] bg-gradient-to-br from-neutral-800 to-neutral-900 relative overflow-hidden">
                   {product.images.length > 0 ? (
                     <>
-                      {/* Todas as imagens (pré-carregadas) */}
+                      {/* Todas as imagens com transição suave */}
                       {product.images.map((image, index) => (
                         <div 
                           key={index}
-                          className={`relative w-full h-full transition-opacity duration-300 ${
-                            index === currentImageIndex ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'
+                          className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                            index === currentImageIndex ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
                           }`}
                         >
-                          <Image
-                            src={image}
-                            alt={`${product.name} - Imagem ${index + 1}`}
-                            fill
-                            className="object-contain"
-                            priority={index === 0}
-                            loading={index === 0 ? "eager" : "eager"}
-                          />
+                          {imageLoading[index] && (
+                            <div className="absolute inset-0 flex items-center justify-center z-20 bg-neutral-900/50">
+                              <div className="w-12 h-12 border-4 border-white/20 border-t-white/60 rounded-full animate-spin" />
+                            </div>
+                          )}
+                          {!imageError[index] ? (
+                            <Image
+                              key={`${product.id}-img-${index}`}
+                              src={image}
+                              alt={`${product.name} - Imagem ${index + 1}`}
+                              fill
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 66vw, 50vw"
+                              className="object-contain"
+                              priority={index === 0}
+                              loading={index === 0 ? "eager" : "lazy"}
+                              unoptimized={false}
+                              onLoadStart={() => {
+                                setImageLoading(prev => ({ ...prev, [index]: true }));
+                              }}
+                              onLoad={() => {
+                                setImageLoading(prev => ({ ...prev, [index]: false }));
+                              }}
+                              onError={() => {
+                                setImageError(prev => ({ ...prev, [index]: true }));
+                                setImageLoading(prev => ({ ...prev, [index]: false }));
+                              }}
+                            />
+                          ) : (
+                            <div className="relative z-10 flex flex-col items-center justify-center h-full gap-4">
+                              <Package className="w-24 h-24 text-white/10" />
+                              <div className="text-center">
+                                <p className="text-white/30 text-sm mb-1">ERRO AO CARREGAR IMAGEM</p>
+                                <p className="text-white/20 text-xs">Imagem não disponível</p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       ))}
 
@@ -173,7 +213,12 @@ export default function ProdutoPage() {
                           {product.images.map((_, index) => (
                             <button
                               key={index}
-                              onClick={() => setCurrentImageIndex(index)}
+                              onClick={() => {
+                                if (!imageLoading[index] && !imageError[index]) {
+                                  setImageLoading(prev => ({ ...prev, [index]: true }));
+                                }
+                                setCurrentImageIndex(index);
+                              }}
                               className={`w-2 h-2 rounded-full transition-all ${
                                 index === currentImageIndex
                                   ? 'bg-white w-8'

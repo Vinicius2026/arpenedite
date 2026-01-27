@@ -1,10 +1,19 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
-import FloatingLogo from "./FloatingLogo";
+import dynamic from "next/dynamic";
 import { Sparkles } from "lucide-react";
 
-export default function Hero() {
+// Lazy load do FloatingLogo para melhorar performance inicial
+const FloatingLogo = dynamic(() => import("./FloatingLogo"), {
+  loading: () => (
+    <div className="w-[280px] md:w-[360px] h-[93px] md:h-[120px] bg-white/5 rounded-3xl animate-pulse" />
+  ),
+  ssr: true
+});
+
+function Hero() {
   const containerVariants = {
     hidden: {},
     show: {
@@ -99,3 +108,5 @@ export default function Hero() {
     </section>
   );
 }
+
+export default memo(Hero);

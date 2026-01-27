@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import {
   Smartphone,
@@ -163,3 +164,5 @@ export default function LinkHub() {
     </section>
   );
 }
+
+export default memo(LinkHub);
