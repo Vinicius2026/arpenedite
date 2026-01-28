@@ -112,7 +112,10 @@ function LinkHub() {
                             className="absolute inset-0 w-full h-full object-cover rounded-2xl scale-125 object-[50%_40%]"
                           />
                         ) : card.icon ? (
-                          <card.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
+                          (() => {
+                            const IconComponent = card.icon;
+                            return <IconComponent className="w-7 h-7 text-white" strokeWidth={2.5} />;
+                          })()
                         ) : null}
                       </div>
 
