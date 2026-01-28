@@ -24,7 +24,7 @@ export const MATERIAL_DATA: MaterialCategory = {
     { id: 2, name: "Weshot Noite", description: "", downloadLink: "#" },
     { id: 3, name: "Weshot Dia", description: "", downloadLink: "#" },
     { id: 4, name: "Eva Skin", description: "", downloadLink: "#" },
-    { id: 5, name: "Sonotonina Gummie", description: "", downloadLink: "#" },
+    { id: 5, name: "Sonotonina Gummie", description: "", downloadLink: "https://drive.google.com/drive/folders/1tZn7ULbfpSJgqKbP0Uf_yqjWwad58HLa?usp=sharing" },
     { id: 6, name: "Creatina Gummy VitFit", description: "", downloadLink: "#" },
     { id: 7, name: "Articula Life", description: "", downloadLink: "#" },
     { id: 8, name: "Lift Burncore", description: "", downloadLink: "#" },

@@ -20,23 +20,23 @@ type SortOrder = "az" | "za";
 function PageHeader({ onBack }: { onBack: () => void }) {
   return (
     <header className="border-b border-white/10 bg-black/60 backdrop-blur-2xl sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center gap-4">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center gap-2 sm:gap-4">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60"
+          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 transition-all group focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Voltar</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-xs sm:text-sm font-medium hidden sm:inline">Voltar</span>
         </button>
-        <div className="h-6 w-px bg-white/10"></div>
-        <div className="flex items-center gap-4">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/90 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-            <ImageIcon className="w-5 h-5 text-white" />
+        <div className="h-4 sm:h-6 w-px bg-white/10"></div>
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-cyan-500/90 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 flex-shrink-0">
+            <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <div>
-            <div className="text-xs text-white/40 uppercase tracking-[0.2em]">Material de Apoio</div>
-            <h1 className="text-2xl font-semibold tracking-tight text-white">Material de Imagens</h1>
-            <p className="text-sm text-white/50">Banners, criativos e fotos</p>
+          <div className="min-w-0 flex-1">
+            <div className="text-[10px] sm:text-xs text-white/40 uppercase tracking-[0.15em] sm:tracking-[0.2em] hidden sm:block">Material de Apoio</div>
+            <h1 className="text-base sm:text-xl md:text-2xl font-semibold tracking-tight text-white truncate">Material de Imagens</h1>
+            <p className="text-[10px] sm:text-xs md:text-sm text-white/50 hidden sm:block">Banners, criativos e fotos</p>
           </div>
         </div>
       </div>
@@ -46,12 +46,12 @@ function PageHeader({ onBack }: { onBack: () => void }) {
 
 function NoticeBanner() {
   return (
-    <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-6 py-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/15 border border-cyan-500/20 text-cyan-400">
-          <ShieldCheck className="h-5 w-5" />
+    <div className="mb-4 sm:mb-6 md:mb-8 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
+      <div className="flex items-start gap-2 sm:gap-3">
+        <div className="mt-0 flex h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 items-center justify-center rounded-lg sm:rounded-xl bg-cyan-500/15 border border-cyan-500/20 text-cyan-400 flex-shrink-0">
+          <ShieldCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
         </div>
-        <p className="text-sm text-white/70 leading-relaxed">{RIGHTS_TEXT}</p>
+        <p className="text-[11px] sm:text-xs md:text-sm text-white/70 leading-relaxed">{RIGHTS_TEXT}</p>
       </div>
     </div>
   );
@@ -73,29 +73,29 @@ function Toolbar({
   onSortChange: (value: SortOrder) => void;
 }) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col gap-3 sm:gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h2 className="text-lg font-semibold text-white">Arquivos disponíveis</h2>
-        <p className="text-sm text-white/50">
+        <h2 className="text-base sm:text-lg font-semibold text-white">Arquivos disponíveis</h2>
+        <p className="text-xs sm:text-sm text-white/50">
           Exibindo {results} de {total} arquivo{total === 1 ? "" : "s"}
         </p>
       </div>
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+      <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-center">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+          <Search className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/40" />
           <input
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Buscar arquivo..."
-            className="w-full sm:w-64 pl-9 pr-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+            className="w-full sm:w-64 pl-8 sm:pl-9 pr-2.5 sm:pr-3 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm text-white placeholder:text-white/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
           />
         </div>
         <div className="relative">
-          <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+          <ArrowUpDown className="absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/40" />
           <select
             value={sort}
             onChange={(event) => onSortChange(event.target.value as SortOrder)}
-            className="w-full sm:w-44 pl-9 pr-8 py-2.5 rounded-xl bg-white/5 border border-white/10 text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
+            className="w-full sm:w-44 pl-8 sm:pl-9 pr-7 sm:pr-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50"
           >
             <option value="az">A–Z</option>
             <option value="za">Z–A</option>
@@ -107,34 +107,37 @@ function Toolbar({
 }
 
 function FileRow({ doc, isLast }: { doc: Material; isLast: boolean }) {
-  const description = doc.description?.trim() ? doc.description : "Sem descrição";
+  const hasDescription = doc.description?.trim();
+  const description = hasDescription || null;
 
   return (
     <div
-      className={`grid grid-cols-12 gap-4 px-6 py-4 transition-colors group ${
+      className={`flex flex-col sm:grid sm:grid-cols-12 gap-2 sm:gap-4 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 transition-colors group ${
         isLast ? "" : "border-b border-white/5"
       } odd:bg-white/[0.01] hover:bg-white/[0.04]`}
     >
-      <div className="col-span-12 md:col-span-6 flex items-center gap-3">
-        <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-          <ImageIcon className="w-5 h-5 text-white" />
+      <div className="col-span-12 md:col-span-6 flex items-center gap-2 sm:gap-3">
+        <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+          <ImageIcon className="w-4 h-4 sm:w-4.5 sm:h-4.5 md:w-5 md:h-5 text-white" />
         </div>
         <div className="min-w-0 flex-1">
           <a
             href={doc.downloadLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-white text-sm truncate hover:text-cyan-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 rounded"
+            className="font-semibold text-white text-xs sm:text-sm truncate hover:text-cyan-400 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 rounded block"
             aria-label={`Abrir ${doc.name}`}
           >
             {doc.name}
           </a>
-          <p className="text-xs text-white/40 md:hidden mt-1 line-clamp-1">{description}</p>
+          {description && (
+            <p className="text-[10px] sm:text-xs text-white/40 md:hidden mt-0.5 sm:mt-1 line-clamp-1">{description}</p>
+          )}
         </div>
       </div>
 
       <div className="hidden md:flex md:col-span-4 items-center">
-        <p className="text-sm text-white/55 line-clamp-2">{description}</p>
+        <p className="text-sm text-white/55 line-clamp-2">{description || "—"}</p>
       </div>
 
       <div className="col-span-12 md:col-span-2 flex items-center justify-start md:justify-end">
@@ -142,10 +145,10 @@ function FileRow({ doc, isLast }: { doc: Material; isLast: boolean }) {
           href={doc.downloadLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-600/90 hover:bg-cyan-600 text-white text-sm font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60"
+          className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg bg-cyan-600/90 hover:bg-cyan-600 text-white text-xs sm:text-sm font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/60 w-full sm:w-auto justify-center sm:justify-start"
           aria-label={`Download de ${doc.name}`}
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>Download</span>
         </a>
       </div>
@@ -185,7 +188,7 @@ export default function ImagensMaterialPage() {
       <div className="relative z-10">
         <PageHeader onBack={() => router.push("/dashboard/material-apoio")} />
 
-        <main className="max-w-6xl mx-auto px-6 py-10">
+        <main className="max-w-6xl mx-auto px-4 sm:px-5 md:px-6 py-4 sm:py-6 md:py-10">
           <NoticeBanner />
 
           <Toolbar
@@ -197,8 +200,8 @@ export default function ImagensMaterialPage() {
             onSortChange={setSort}
           />
 
-          <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_18px_40px_rgba(0,0,0,0.4)]">
-            <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-white/[0.03] border-b border-white/5 text-xs font-semibold text-white/50 uppercase tracking-[0.2em]">
+          <div className="mt-4 sm:mt-5 md:mt-6 rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_18px_40px_rgba(0,0,0,0.4)]">
+            <div className="hidden sm:grid grid-cols-12 gap-4 px-4 md:px-6 py-2 sm:py-2.5 md:py-3 bg-white/[0.03] border-b border-white/5 text-[10px] sm:text-xs font-semibold text-white/50 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
               <div className="col-span-12 md:col-span-6">Arquivo</div>
               <div className="hidden md:block md:col-span-4">Descrição</div>
               <div className="hidden md:block md:col-span-2 text-right">Ação</div>

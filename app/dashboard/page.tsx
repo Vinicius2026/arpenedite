@@ -381,6 +381,12 @@ function DashboardContent() {
                     <p className="text-white/40 text-sm max-w-xs mt-1">
                       Personalize seu dashboard selecionando produtos na aba de produtos.
                     </p>
+                    <button
+                      onClick={() => setActiveTab("produtos")}
+                      className="mt-6 inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-bold tracking-wide text-white bg-gradient-to-r from-white/20 to-white/10 hover:from-white/30 hover:to-white/20 border border-white/30 hover:border-white/40 shadow-lg shadow-white/10 hover:shadow-white/20 backdrop-blur-xl transition-all active:scale-95 hover:scale-105"
+                    >
+                      Acessar Todos Produtos
+                    </button>
                   </>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-full text-left">
