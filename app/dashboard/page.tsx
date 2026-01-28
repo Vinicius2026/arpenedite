@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
+import { motion } from "framer-motion";
 import { 
   Home, 
   Package, 
@@ -22,12 +23,15 @@ import {
   DollarSign,
   Users,
   TrendingUp as TrendingUpIcon,
-  Send
+  Send,
+  Menu,
+  X,
+  Lock,
+  LogOut
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getSession, signOut, getSelectedProducts, createAffiliateRequest } from "@/lib/supabase";
 import { getProduct } from "@/lib/products-data";
-import UserDropdown from "@/components/UserDropdown";
 import ChangePasswordModal from "@/components/ChangePasswordModal";
 import Image from "next/image";
 
@@ -56,6 +60,7 @@ function DashboardContent() {
   });
   const [isSubmittingAffiliate, setIsSubmittingAffiliate] = useState(false);
   const [affiliateSuccess, setAffiliateSuccess] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     checkAuth();
@@ -255,7 +260,7 @@ function DashboardContent() {
 
       <header className="border-b border-white/5 bg-black/40 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-8 flex-1">
             <div className="flex items-center gap-2 group cursor-default">
               <div className="w-9 h-9 bg-white flex items-center justify-center rounded-lg group-hover:rotate-6 transition-transform">
                 <LayoutDashboard className="w-5 h-5 text-black" />
@@ -266,29 +271,86 @@ function DashboardContent() {
               </div>
             </div>
 
-            <nav className="hidden md:flex items-center gap-1 p-1 bg-white/5 rounded-full border border-white/5">
-              {menuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id)}
-                  className={`px-5 py-2 rounded-full text-xs font-medium transition-all duration-300 ${
-                    activeTab === item.id 
-                    ? "bg-white text-black shadow-lg shadow-white/10" 
-                    : "text-white/60 hover:text-white hover:bg-white/5"
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
           </div>
           
-          <UserDropdown
-            email={userEmail}
-            onChangePassword={() => setIsPasswordModalOpen(true)}
-            onLogout={handleLogout}
-          />
+          <div className="flex items-center gap-4">
+            {/* Menu Button - único ícone para menu */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 text-white rounded-lg hover:bg-white/5 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="border-t border-white/5 bg-black/60 backdrop-blur-xl"
+          >
+            <div className="px-6 py-4 space-y-2">
+              {/* Informação do usuário */}
+              <div className="px-4 py-3 mb-2 border-b border-white/10">
+                <p className="text-xs text-white/50 mb-1">Conectado como</p>
+                <p className="text-sm text-white font-semibold truncate">{userEmail}</p>
+              </div>
+
+              {/* Itens de navegação */}
+              {menuItems.map((item) => {
+                const ItemIcon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all text-left ${
+                      activeTab === item.id
+                        ? "bg-white/10 text-white"
+                        : "text-white/60 hover:text-white hover:bg-white/5"
+                    }`}
+                  >
+                    <ItemIcon className="w-5 h-5" />
+                    <span className="font-medium">{item.label}</span>
+                  </button>
+                );
+              })}
+
+              {/* Separador */}
+              <div className="border-t border-white/10 my-2"></div>
+
+              {/* Alterar Senha */}
+              <button
+                onClick={() => {
+                  setIsPasswordModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all text-left text-white/60 hover:text-white hover:bg-white/5"
+              >
+                <Lock className="w-5 h-5" />
+                <span className="font-medium">Alterar Senha</span>
+              </button>
+
+              {/* Sair */}
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all text-left text-red-400 hover:text-red-300 hover:bg-red-500/10"
+              >
+                <LogOut className="w-5 h-5" />
+                <span className="font-medium">Sair</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
       </header>
 
       <ChangePasswordModal
