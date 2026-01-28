@@ -17,6 +17,7 @@ const whiteCards = [
     image: "/images/photo_2024-09-29_18-07-16.jpg",
     url: "#",
     iconBg: "bg-gradient-to-br from-sky-400 to-blue-600",
+    icon: null,
   },
   {
     title: "ANO DOS SONHOS: R$1.000 EM COMPRAS PRA VOCÊ",
@@ -24,6 +25,7 @@ const whiteCards = [
     icon: Calendar,
     url: "#",
     iconBg: "bg-gradient-to-br from-orange-400 to-orange-600",
+    image: null,
   },
   {
     title: "MIL PARA CARTÃO OU COMPRAS ONLINE",
@@ -31,6 +33,7 @@ const whiteCards = [
     icon: CreditCard,
     url: "#",
     iconBg: "bg-gradient-to-br from-emerald-400 to-green-600",
+    image: null,
   },
 ];
 
@@ -108,9 +111,9 @@ function LinkHub() {
                             height={64}
                             className="w-full h-full object-cover rounded-2xl scale-110"
                           />
-                        ) : (
+                        ) : card.icon ? (
                           <card.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
-                        )}
+                        ) : null}
                       </div>
 
                     {/* Text */}
