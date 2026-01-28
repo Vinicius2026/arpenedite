@@ -29,8 +29,8 @@ export default function FloatingLogo() {
           <div className="absolute -inset-6 bg-white/6 rounded-[40px] blur-3xl" />
           <div className="absolute -inset-8 bg-white/3 rounded-[48px] blur-[60px]" />
           
-          {/* Logo container - apenas borda, sem fundo */}
-          <div className="relative rounded-3xl px-10 py-8 md:px-16 md:py-12 border border-white/15">
+          {/* Logo container - apenas borda, sem fundo - padding reduzido */}
+          <div className="relative rounded-3xl px-8 py-6 md:px-12 md:py-8 border border-white/15">
             
             <motion.div
               whileHover={{ 

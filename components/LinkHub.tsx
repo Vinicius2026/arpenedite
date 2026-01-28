@@ -2,8 +2,8 @@
 
 import { memo } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
-  Smartphone,
   Calendar,
   CreditCard,
   MessageCircle,
@@ -14,7 +14,7 @@ const whiteCards = [
   {
     title: "CONCORRA A UM iPHONE NOVO",
     description: "Sorteio 100% gratuito. Clique aqui e participe!",
-    icon: Smartphone,
+    image: "/images/photo_2024-09-29_18-07-16.jpg",
     url: "#",
     iconBg: "bg-gradient-to-br from-sky-400 to-blue-600",
   },
@@ -70,24 +70,23 @@ function LinkHub() {
   };
 
   return (
-    <section id="links" className="py-16 px-4 relative">
-      <div className="max-w-xl mx-auto relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="space-y-8"
-        >
-          {/* Title */}
-          <motion.div variants={itemVariants} className="text-center">
-            <h2 className="text-3xl md:text-4xl font-black text-vda-white tracking-tight">
-              Prêmios pra você: 👇
-            </h2>
-          </motion.div>
+    <div className="w-full max-w-xl mx-auto">
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+        className="space-y-2"
+      >
+        {/* Title */}
+        <motion.div variants={itemVariants} className="text-center pb-1">
+          <h2 className="text-xl md:text-2xl font-black text-vda-white tracking-tight">
+            Prêmios pra você: 👇
+          </h2>
+        </motion.div>
 
-          {/* White Cards */}
-          <div className="space-y-3">
+        {/* White Cards - botões mais juntos */}
+        <div className="space-y-2">
             {whiteCards.map((card) => (
               <motion.a
                 key={card.title}
@@ -97,12 +96,22 @@ function LinkHub() {
                 whileTap={{ scale: 0.98 }}
                 className="block group"
               >
-                <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300">
-                  <div className="flex items-center gap-4">
-                    {/* Icon */}
-                    <div className={`w-14 h-14 rounded-2xl ${card.iconBg} flex items-center justify-center flex-shrink-0 shadow-md`}>
-                      <card.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
-                    </div>
+                  <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300">
+                    <div className="flex items-center gap-4">
+                      {/* Icon ou Image */}
+                      <div className={`w-16 h-16 rounded-2xl ${card.iconBg} flex items-center justify-center flex-shrink-0 shadow-md overflow-hidden`}>
+                        {card.image ? (
+                          <Image
+                            src={card.image}
+                            alt={card.title}
+                            width={64}
+                            height={64}
+                            className="w-full h-full object-cover rounded-2xl scale-110"
+                          />
+                        ) : (
+                          <card.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
+                        )}
+                      </div>
 
                     {/* Text */}
                     <div className="flex-1 min-w-0">
@@ -119,8 +128,8 @@ function LinkHub() {
             ))}
           </div>
 
-          {/* Green Cards (WhatsApp) */}
-          <div className="space-y-3">
+          {/* Green Cards (WhatsApp) - botões mais juntos */}
+          <div className="space-y-2">
             {greenCards.map((card) => (
               <motion.a
                 key={card.title}
@@ -153,15 +162,14 @@ function LinkHub() {
           </div>
 
           {/* Bottom Note */}
-          <motion.div variants={itemVariants} className="text-center pt-2">
-            <p className="text-sm text-vda-light-gray">
+          <motion.div variants={itemVariants} className="text-center pt-1">
+            <p className="text-xs text-vda-light-gray">
               Todos os sorteios e benefícios são{" "}
               <span className="text-white font-bold">100% gratuitos</span>
             </p>
           </motion.div>
         </motion.div>
-      </div>
-    </section>
+    </div>
   );
 }
 
