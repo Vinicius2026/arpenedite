@@ -291,7 +291,7 @@ function DashboardContent() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="border-t border-white/5 bg-black/60 backdrop-blur-xl"
+            className="border-t border-white/10 bg-black/30 backdrop-blur-2xl bg-gradient-to-b from-white/[0.04] to-transparent"
           >
             <div className="px-6 py-4 space-y-2">
               {/* Informação do usuário */}
