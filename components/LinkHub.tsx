@@ -8,9 +8,19 @@ import {
   CreditCard,
   MessageCircle,
   TrendingUp,
+  LucideIcon,
 } from "lucide-react";
 
-const whiteCards = [
+type WhiteCard = {
+  title: string;
+  description: string;
+  url: string;
+  iconBg: string;
+  image?: string;
+  icon?: LucideIcon | null;
+};
+
+const whiteCards: WhiteCard[] = [
   {
     title: "CONCORRA A UM iPHONE NOVO",
     description: "Sorteio 100% gratuito. Clique aqui e participe!",
@@ -101,9 +111,9 @@ function LinkHub() {
               >
                   <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300">
                     <div className="flex items-center gap-4">
-                      {/* Icon ou Image */}
+                      {/* Image */}
                       <div className={`w-16 h-16 rounded-2xl ${card.iconBg} flex items-center justify-center flex-shrink-0 shadow-md overflow-hidden relative`}>
-                        {card.image ? (
+                        {card.image && (
                           <Image
                             src={card.image}
                             alt={card.title}
@@ -111,12 +121,7 @@ function LinkHub() {
                             height={64}
                             className="absolute inset-0 w-full h-full object-cover rounded-2xl scale-125 object-[50%_40%]"
                           />
-                        ) : card.icon ? (
-                          (() => {
-                            const IconComponent = card.icon;
-                            return <IconComponent className="w-7 h-7 text-white" strokeWidth={2.5} />;
-                          })()
-                        ) : null}
+                        )}
                       </div>
 
                     {/* Text */}
