@@ -131,20 +131,39 @@ function Hero() {
             </p>
           </motion.div>
 
-          {/* CTA Button - COMPRAR VDA estiloso e mais quadrado */}
+          {/* CTA Button - COMPRAR VDA com efeito vidro metálico */}
           <motion.div variants={itemVariants} className="pt-2">
             <motion.a
               href="#links"
               whileHover={{ scale: 1.02, y: -1 }}
               whileTap={{ scale: 0.98 }}
-              className="group inline-flex items-center justify-center px-12 py-4 bg-vda-white text-vda-black font-black text-lg rounded-2xl border-2 border-vda-white/20 shadow-[0_8px_32px_rgba(255,255,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.25)] hover:border-vda-white/40 transition-all duration-300 relative overflow-hidden"
+              className="group inline-flex items-center justify-center px-12 py-4 rounded-2xl backdrop-blur-xl bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-white/[0.08] border border-white/25 shadow-[0_8px_32px_rgba(255,255,255,0.12),inset_0_1px_0_rgba(255,255,255,0.25)] hover:shadow-[0_12px_40px_rgba(255,255,255,0.18),inset_0_1px_0_rgba(255,255,255,0.35)] hover:border-white/35 transition-all duration-300 relative overflow-hidden"
             >
-              {/* Shimmer effect overlay */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-              <span className="relative z-10 tracking-wide">COMPRAR VDA</span>
+              {/* Shimmer effect metálico */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+              {/* Glow effect metálico - prata para dourado */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[rgba(192,192,192,0.15)] via-[rgba(255,255,255,0.1)] to-[rgba(217,172,112,0.15)] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
+              {/* Texto com gradiente metálico - prata para dourado */}
+              <span className="relative z-10 tracking-wider font-bold text-[15px] bg-gradient-to-b from-[#E8E8E8] via-white to-[#D4AF37] bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(255,255,255,0.4)]">
+                COMPRAR VDA
+              </span>
             </motion.a>
+          </motion.div>
+
+          {/* Profile Circle - Thiago Lima */}
+          <motion.div variants={itemVariants} className="pt-4 flex flex-col items-center">
+            <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_4px_20px_rgba(255,255,255,0.1)]">
+              <Image
+                src="/images/profile_thiagolimaslv.png"
+                alt="Thiago Lima"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 112px, 128px"
+              />
+            </div>
+            <h3 className="mt-3 text-base md:text-lg font-semibold text-vda-white tracking-wide">
+              Thiago Lima
+            </h3>
           </motion.div>
 
           {/* LinkHub integrado - Prêmios pra você no topo */}

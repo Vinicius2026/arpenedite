@@ -34,8 +34,15 @@ export default function Header() {
             </motion.div>
           </Link>
 
-          {/* Desktop Login Button */}
-          <div className="hidden md:block">
+          {/* Desktop Menu Items */}
+          <div className="hidden md:flex items-center gap-3">
+            <motion.button
+              whileHover={{ scale: 1.05, borderColor: "rgba(255, 255, 255, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center space-x-2 px-5 py-2 rounded-full transition-all border border-white/10 hover:border-white/20 hover:bg-white/5"
+            >
+              <span className="text-sm font-medium">Suporte</span>
+            </motion.button>
             <Link href="/login">
               <motion.button
                 whileHover={{ scale: 1.05, borderColor: "rgba(255, 255, 255, 0.3)" }}
@@ -66,8 +73,15 @@ export default function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="md:hidden py-4 border-t border-white/5"
+            className="md:hidden py-4 border-t border-white/5 space-y-2"
           >
+            <motion.button
+              onClick={() => setIsMenuOpen(false)}
+              whileHover={{ x: 5 }}
+              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-white/5 rounded-lg transition-all text-left"
+            >
+              <span className="font-medium">Suporte</span>
+            </motion.button>
             <Link href="/login" onClick={() => setIsMenuOpen(false)}>
               <motion.div
                 whileHover={{ x: 5 }}

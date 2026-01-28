@@ -22,18 +22,18 @@ const whiteCards = [
   {
     title: "ANO DOS SONHOS: R$1.000 EM COMPRAS PRA VOCÊ",
     description: "Sorteio 100% gratuito. Clique aqui e participe!",
-    icon: Calendar,
+    image: "/images/4527.jpeg",
     url: "#",
     iconBg: "bg-gradient-to-br from-orange-400 to-orange-600",
-    image: null,
+    icon: null,
   },
   {
     title: "MIL PARA CARTÃO OU COMPRAS ONLINE",
     description: "Sorteio 100% gratuito. Clique aqui e participe!",
-    icon: CreditCard,
+    image: "/images/PHOTO-2024-10-16-06-56-00-1-1152x1536.jpg",
     url: "#",
     iconBg: "bg-gradient-to-br from-emerald-400 to-green-600",
-    image: null,
+    icon: null,
   },
 ];
 
@@ -102,14 +102,14 @@ function LinkHub() {
                   <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20 hover:shadow-xl hover:shadow-black/30 transition-all duration-300">
                     <div className="flex items-center gap-4">
                       {/* Icon ou Image */}
-                      <div className={`w-16 h-16 rounded-2xl ${card.iconBg} flex items-center justify-center flex-shrink-0 shadow-md overflow-hidden`}>
+                      <div className={`w-16 h-16 rounded-2xl ${card.iconBg} flex items-center justify-center flex-shrink-0 shadow-md overflow-hidden relative`}>
                         {card.image ? (
                           <Image
                             src={card.image}
                             alt={card.title}
                             width={64}
                             height={64}
-                            className="w-full h-full object-cover rounded-2xl scale-110"
+                            className="absolute inset-0 w-full h-full object-cover rounded-2xl scale-125 object-[50%_40%]"
                           />
                         ) : card.icon ? (
                           <card.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
